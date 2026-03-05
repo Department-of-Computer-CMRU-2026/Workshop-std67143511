@@ -10,6 +10,7 @@ class Topic extends Model
         'title',
         'description',
         'speaker_name',
+        'location',
         'seat_limit',
         'event_date',
     ];

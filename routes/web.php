@@ -11,11 +11,12 @@ Route::get('/', function () {
     return view('welcome', compact('topics'));
 })->name('welcome');
 
-Route::get('/topics/{topic}', [TopicController::class , 'show'])->name('topics.show');
 Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->group(function () {
     Route::get('/topics/{topic}/attendees', [TopicController::class , 'attendees'])->name('topics.attendees');
     Route::resource('topics', TopicController::class)->except(['show']);
 });
+
+Route::get('/topics/{topic}', [TopicController::class , 'show'])->name('topics.show');
 
 Route::get('/login', [AuthController::class , 'showLogin'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class , 'login'])->middleware('guest');
@@ -28,8 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/topics/{topic}/register', [RegistrationController::class , 'create'])->name('registrations.create');
     Route::post('/topics/{topic}/register', [RegistrationController::class , 'store'])->name('registrations.store');
 
-    // Admin only registration removal
+    // Registration removal (authorized in Controller)
     Route::delete('/registrations/{registration}', [RegistrationController::class , 'destroy'])
-        ->name('registrations.destroy')
-        ->middleware(\App\Http\Middleware\IsAdmin::class);
+        ->name('registrations.destroy');
 });

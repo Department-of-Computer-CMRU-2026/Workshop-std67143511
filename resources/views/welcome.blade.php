@@ -16,6 +16,7 @@
                     </span>
                     <h4 class="card-title fw-bold text-dark mb-1">{{ $topic->title }}</h4>
                     <p class="text-muted small mb-0">Speaker: <span class="fw-medium text-dark">{{ $topic->speaker_name }}</span></p>
+                    <p class="text-muted small mb-0"><i class="bi bi-geo-alt me-1"></i>{{ $topic->location ?? 'To be announced' }}</p>
                 </div>
                 <div class="card-body">
                     <p class="card-text text-secondary line-clamp-3">{{ $topic->description }}</p>

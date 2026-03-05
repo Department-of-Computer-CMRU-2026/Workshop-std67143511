@@ -6,6 +6,44 @@
     <a href="{{ route('topics.create') }}" class="btn btn-primary rounded-pill px-4 shadow-sm">+ Add New Topic</a>
 </div>
 
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 text-center p-3 h-100">
+            <h6 class="text-muted text-uppercase fw-bold small mb-2">Total Topics</h6>
+            <h3 class="fw-bold text-primary mb-0">{{ $topics->count() }}</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        @php
+            $totalSeats = $topics->sum('seat_limit');
+            $totalRegs = $topics->sum('registrations_count');
+            $remaining = max(0, $totalSeats - $totalRegs);
+        @endphp
+        <div class="card border-0 shadow-sm rounded-4 text-center p-3 h-100">
+            <h6 class="text-muted text-uppercase fw-bold small mb-2">Total Capacity</h6>
+            <h3 class="fw-bold text-dark mb-0">{{ $totalRegs }} <small class="text-muted fw-normal">/ {{ $totalSeats }}</small></h3>
+            <small class="text-success fw-medium mt-1">{{ $remaining }} seats left</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        @php
+            $fullCount = $topics->filter(fn($t) => $t->registrations_count >= $t->seat_limit)->count();
+        @endphp
+        <div class="card border-0 shadow-sm rounded-4 text-center p-3 h-100">
+            <h6 class="text-muted text-uppercase fw-bold small mb-2">Full Topics</h6>
+            <h3 class="fw-bold text-danger mb-0">{{ $fullCount }}</h3>
+            <small class="text-muted mt-1">out of {{ $topics->count() }} total</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm rounded-4 text-center p-3 h-100">
+            <h6 class="text-muted text-uppercase fw-bold small mb-2">Total Attendees</h6>
+            <h3 class="fw-bold text-info mb-0">{{ $totalRegs }}</h3>
+            <small class="text-muted mt-1">across all workshops</small>
+        </div>
+    </div>
+</div>
+
 <div class="card shadow-sm border-0 rounded-4">
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -14,6 +52,7 @@
                     <tr>
                         <th class="ps-4">Title</th>
                         <th>Speaker</th>
+                        <th>Location</th>
                         <th>Date & Time</th>
                         <th>Seats (Registrations)</th>
                         <th class="text-end pe-4">Actions</th>
@@ -24,6 +63,7 @@
                     <tr>
                         <td class="ps-4 fw-medium">{{ $topic->title }}</td>
                         <td><span class="badge bg-secondary rounded-pill">{{ $topic->speaker_name }}</span></td>
+                        <td><small class="text-muted">{{ $topic->location ?? 'N/A' }}</small></td>
                         <td><small class="text-muted">{{ $topic->event_date->format('d M Y, H:i') }}</small></td>
                         <td>
                             @php

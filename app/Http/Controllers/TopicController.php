@@ -42,6 +42,7 @@ class TopicController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'speaker_name' => 'required|string|max:255',
+            'location' => 'nullable|string|max:255',
             'seat_limit' => 'required|integer|min:1',
             'event_date' => 'required|date',
         ]);
@@ -68,6 +69,7 @@ class TopicController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'speaker_name' => 'required|string|max:255',
+            'location' => 'nullable|string|max:255',
             'seat_limit' => 'required|integer|min:1',
             'event_date' => 'required|date',
         ]);

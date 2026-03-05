@@ -22,8 +22,9 @@
                 <div class="card-body p-5">
                     <div class="row align-items-center mb-5 bg-light rounded-4 p-4 inner-shadow-sm">
                         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            <h6 class="text-muted text-uppercase fw-bold letter-spacing-1 mb-2">Speaker</h6>
-                            <h4 class="mb-0 text-dark fw-bold"><i class="bi bi-person-fill-check text-primary me-2"></i>{{ $topic->speaker_name }}</h4>
+                            <h6 class="text-muted text-uppercase fw-bold letter-spacing-1 mb-2">Speaker & Location</h6>
+                            <h4 class="mb-1 text-dark fw-bold"><i class="bi bi-person-fill-check text-primary me-2"></i>{{ $topic->speaker_name }}</h4>
+                            <p class="text-muted mb-0"><i class="bi bi-geo-alt-fill text-danger me-2"></i>{{ $topic->location ?? 'TBA' }}</p>
                         </div>
                         <div class="col-md-6 text-center text-md-end border-md-start">
                             @php

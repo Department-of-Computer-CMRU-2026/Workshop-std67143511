@@ -75,9 +75,20 @@ class RegistrationController extends Controller
 
     public function destroy(Registration $registration)
     {
+        $user = \Illuminate\Support\Facades\Auth::user();
+
+        // Authorization: Only Admin or the owner can delete
+        if (!$user->is_admin && $user->id !== $registration->user_id) {
+            abort(403);
+        }
+
         $topicId = $registration->topic_id;
         $registration->delete();
 
-        return redirect()->route('topics.attendees', $topicId)->with('success', 'Attendee removed successfully.');
+        if ($user->is_admin) {
+            return redirect()->route('topics.attendees', $topicId)->with('success', 'Attendee removed successfully.');
+        }
+
+        return redirect()->route('registrations.index')->with('success', 'Your registration has been cancelled.');
     }
 }

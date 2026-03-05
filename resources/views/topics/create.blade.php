@@ -24,10 +24,15 @@
                     </div>
                     
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="speaker_name" class="form-label fw-medium">Speaker Name</label>
                             <input type="text" class="form-control @error('speaker_name') is-invalid @enderror" id="speaker_name" name="speaker_name" value="{{ old('speaker_name') }}" required>
                             @error('speaker_name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="col-md-4">
+                            <label for="location" class="form-label fw-medium">Location</label>
+                            <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location" value="{{ old('location') }}">
+                            @error('location') <div class="invalid-feedback">{{ $message }}</div> @enderror
                         </div>
                         <div class="col-md-3">
                             <label for="seat_limit" class="form-label fw-medium">Seat Limit</label>
