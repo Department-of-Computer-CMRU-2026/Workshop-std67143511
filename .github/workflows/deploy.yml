@@ -77,10 +77,28 @@ jobs:
       - name: Stop Existing Containers
         run: |
           STUDENT_NAME=${{ env.STUDENT_NAME }}
-          # หยุดและลบ container เก่าที่อาจค้างอยู่ (ไม่ว่าจะสร้างจาก project ใด)
+          
+          # 1. ดึงพอร์ตจาก .env.example มาตรวจสอบ
+          S_PORT=$(grep '^STUDENT_PORT=' .env.example | cut -d '=' -f2 | tr -d '\r ' || echo "6142")
+          D_PORT=$(grep '^FORWARD_DB_PORT=' .env.example | cut -d '=' -f2 | tr -d '\r ' || echo "6143")
+
+          echo "Cleaning up containers for ports: $S_PORT, $D_PORT"
+
+          # 2. หยุด container ที่ใช้งานพอร์ตเหล่านี้อยู่ (ไม่ว่าจะชื่ออะไร)
+          for PORT in $S_PORT $D_PORT; do
+            CID=$(docker ps -q --filter "publish=$PORT")
+            if [ ! -z "$CID" ]; then
+              echo "Stopping container $CID using port $PORT..."
+              docker stop $CID || true
+              docker rm $CID || true
+            fi
+          done
+
+          # 3. หยุดและลบ container ตามชื่อ (เผื่อกรณีที่ไม่มี port mapping ชัดเจน)
           docker stop ${STUDENT_NAME}-app ${STUDENT_NAME}-nginx ${STUDENT_NAME}-db 2>/dev/null || true
           docker rm   ${STUDENT_NAME}-app ${STUDENT_NAME}-nginx ${STUDENT_NAME}-db 2>/dev/null || true
-          # ลบ compose project เก่าถ้ายังมี (orphan cleanup)
+          
+          # 4. ลบ compose project เก่าถ้ายังมี (orphan cleanup)
           docker compose -p ${STUDENT_NAME} down --remove-orphans 2>/dev/null || true
 
       - name: Docker Deploy
