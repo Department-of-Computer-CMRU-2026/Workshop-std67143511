@@ -31,9 +31,6 @@
                 </p>
                 
                 <div class="mt-5 d-flex justify-content-center gap-3">
-                    <a href="#sessions" class="btn btn-premium btn-lg rounded-pill fw-bold shadow-lg px-5 py-3">
-                        Explore Sessions <i class="bi bi-arrow-right ms-2 transition-transform"></i>
-                    </a>
                 </div>
             </div>
         </div>
